@@ -20,7 +20,6 @@ void ListaTerrenos::crearPrimero(Parcela* terreno){
 	this->cursor = this->primero;
 	this->ultimo = this->primero;
 }
-
 bool ListaTerrenos::estaVacia(){
 	if(!tamanio == 0){
 		return false;
@@ -33,9 +32,10 @@ int ListaTerrenos::contarElementos(){
 
 void ListaTerrenos::agregar(Parcela* terreno){
 	if(estaVacia()){
-		crearPrimero(terreno)
+		crearPrimero(terreno);
 	}else{
-		this->ultimo = Nodo(terreno);
+		Nodo nuevo = Nodo(terreno);
+		this->ultimo = &nuevo;
 		ultimo->cambiarAnterior(cursor);
 		ultimo->cambiarSiguiente(primero);
 		cursor->cambiarSiguiente(ultimo);
@@ -47,22 +47,53 @@ void ListaTerrenos::agregar(Parcela* terreno){
 }
 
 void ListaTerrenos::agregar(Parcela* terreno, int posicion){
-
+	//no se si lo vamos a usar
 }
 
 Parcela* ListaTerrenos::obtenerTereno(int posicion){
+	if(posicion > tamanio){
+		return NULL;
+	}
+	modificarCursor(posicion);
+	Parcela* terreno = cursor->obtenerDato();
+	cursor = ultimo;
+	return terreno;
+}
 
+void ListaTerrenos::modificarCursor(int posicion){
+	while(!(cursor->obtenerPosicion() == posicion)){
+		avanzarCursor();
+	}
 }
 
 void ListaTerrenos::remover(int posicion){
-
+	modificarCursor(posicion);
+	cursor->obtenerAnterior()->cambiarSiguiente(cursor->obtenerSiguiente());
+	cursor->obtenerSiguiente()->cambiarSiguiente(cursor->obtenerAnterior());
+	tamanio--;
+	cursor->~Nodo();
+	for(int i = posicion; i < tamanio; i++){
+		avanzarCursor();
+		cursor->setearPosicion(i);
+	}
 }
 
 bool ListaTerrenos::avanzarCursor(){
-
+	cursor = cursor->obtenerSiguiente();
+	if(tamanio > 1){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 Parcela* ListaTerrenos::obtenerCursor(){
 
 }
 
+ListaTerrenos::~ListaTerrenos(){
+	while(tamanio != 0){
+		remover(cursor->obtenerPosicion());
+
+	}
+}
