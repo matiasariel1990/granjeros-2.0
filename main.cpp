@@ -1,30 +1,48 @@
-#include "main.h"
+//============================================================================
+// Name        : Granjeros.cpp
+// Author      : Ahre-manga2
+// Version     : 1.0
+// Copyright   :
+// Description : Trabajo Practino nº1
+//============================================================================
 
-using namespace std;
+#include "main.h"
+#include "pantalla.h"
+#include "logica.h"
+#include "jugador.h"
 
 int main() {
 
-    int cantidadJugadores = 0;
-    Jugador* jugadores = NULL;
-    dificultad nivelElegido = NO_ASIGNADA;
+	//Variable ara terminar el programa
+	bool finalizaJuego = false;
+	//Variable arrancar secuencia de inicio de turno
+	int turnoComparativo;
 
-    ingresarCantidadJugadores(cantidadJugadores);
-    crearArregloJugadores(jugadores, cantidadJugadores);
-    ingresarNombres(jugadores, cantidadJugadores);
-    elegirDificultad(nivelElegido);
-    cargarAtributosIniciales(jugadores, cantidadJugadores, nivelElegido);
+	int cantJugadores = 0;
+	//Bienvenida
+	Logica::inicio();
+	//Solcita cantidad de jugadores;
+	cantJugadores = Logica::solicitarCantidadJugadores();
+	//****SOLICITAR DIFICULTAD ACA
+	//Reservo una direccion de memoria para los jugadores
+	Jugador* jugadoresPtr = new Jugador[cantJugadores];
 
-    // Para ver que onda
-    mostrarInformacionJugadores(jugadores, cantidadJugadores);
+	for(int i = 0; i < cantJugadores; i++){
+		*(jugadoresPtr + i) = Jugador();
+		Logica::asignarJugador((jugadoresPtr + i), i);
+	}
+    //Esto hay que arreglarlo, lo mismo que el contructor de jugadores
+    //hay que hacer una asignacion de dificultad y asignar la cant de turnos
+	turnoComparativo = 10;
+	//(jugadoresPtr->obtenerTurno() + 1);
 
-    /*
+	Logica::inicioDeTurno(jugadoresPtr);
+	Logica::secuenciaDeJuego(jugadoresPtr, &finalizaJuego,
+			&turnoComparativo, 0, cantJugadores);
 
-    Y BUE ACA HABRIA QUE HACER LO QUE TIENE QUE PASAR EN CADA
-    TURNO
+	//Libero memoria, aca hay que ajustar los cambios de memoria
+	delete []jugadoresPtr;
 
-    */
 
-    delete[] jugadores;
-
-    return 0;
+	return 0;
 }
