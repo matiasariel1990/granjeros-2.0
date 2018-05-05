@@ -11,41 +11,78 @@
 #ifndef NULL
 #define NULL 0
 #endif
-#include "parcela.h";
 
-int const MAXCOL = 5;
-int const MAXFIL = 5;
+template<class T> class Nodo {
 
-class Nodo{
+    private:
 
-	private:
+        T dato;
 
-		Parcela* terreno;
+        Nodo<T>* siguiente;
 
-		Nodo* siguiente;
+        Nodo<T>* anterior;
 
-		Nodo* anterior;
+    public:
 
-		int posicion;
+        /*
+         * post: el Nodo resulta inicializado con el dato dado
+         *       y sin un Nodo siguiente.
+         */
 
 
-	public:
+        Nodo(T dato) {
 
-		//
-		Nodo(Parcela* terreno);
+            this->dato = dato;
+            this->siguiente = NULL;
+            this->anterior = NULL;
+        }
 
-		/*
-		 *
-		 */
+        /*
+         * post: devuelve el valor del dato.
+         */
+        T obtenerDato() {
 
-		Parcela* obtenerDato();
-		Nodo* obtenerSiguiente();
-		Nodo* obtenerAnterior();
-		void cambiarSiguiente(Nodo* nuevoSiguiente);
-		void cambiarAnterior(Nodo* nuevoSiguiente);
-		int obtenerPosicion();
-		void setearPosicion(int posicion);
+            return this->dato;
+        }
 
+        /*
+         * post: cambia el valor del dato.
+         */
+        void cambiarDato(T nuevoDato) {
+
+            this->dato = nuevoDato;
+        }
+
+        /*
+         * post: devuelve el siguiente Nodo.
+         */
+        Nodo<T>* obtenerSiguiente() {
+
+            return this->siguiente;
+        }
+
+        /*
+         * post: cambia el siguiente Nodo por nuevoSiguiente.
+         */
+        void cambiarSiguiente(Nodo<T>* nuevoSiguiente) {
+
+            this->siguiente = nuevoSiguiente;
+        }
+
+        /*
+         * post: obtiene el anterior Nodo.
+         */
+        Nodo<T>* obtenerAnterior(Nodo<T>* obtenerAnterior){
+        	return this->anterior;
+        }
+
+        /*
+         * post: cambia el anterior Nodo por nuevoSiguiente.
+         */
+        void cambiarAnterior(Nodo<T>* nuevoAnterior) {
+
+            this->siguiente = nuevoAnterior;
+        }
 };
 
 
