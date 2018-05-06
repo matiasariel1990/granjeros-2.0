@@ -17,6 +17,7 @@ class Cultivo{
 		int tiempoCosecha;
 		int rentabilidad;
 		int tiempoDeRecuperacion;
+		int costoRiego;
 
 	public:
 
@@ -35,6 +36,7 @@ class Cultivo{
 		Cultivo &setearTiempoCosecha(int tiempoCosechaArg);
 		Cultivo &setearRentabilidad(int rentabilidadArg);
 		Cultivo &setearTiempoDeRecuperacion(int tiempoDeRecuperacionArg);
+		Cultivo &setearCostoRiego(int costoRiego);
 
 		/*
 		 * post: devuelve el un char con el tipo del cultivo
@@ -56,6 +58,8 @@ class Cultivo{
 		*/
 		int obtenerRentabilidad();
 		int obtenerTIempoDeRecuperacion();
+	
+		int obtenerCostoRiego();
 
 		/*
 		* post: Reemplaza el cultivo
