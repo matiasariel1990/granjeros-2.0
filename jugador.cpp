@@ -2,75 +2,98 @@
 
 using namespace std;
 
-Jugador :: Jugador() {
 
-    this->nombre = "Nombre no asignado";
-    this->creditos = 0;
-    this->unidadesRiego = 0;
-    this->cantidadTerrenos = 0;
-    this->terreno = NULL;
-}
+    void Jugador::ingresarNombre(){
+    	std::cout << "Ingrese el nombre del jugador: "
+    			<< endl;
+    	cin >> nombre;
+    }
 
-void Jugador :: imprimirInformacion() {
 
-    cout << "\nNombre: " << this->obtenerNombre() << endl
-        << "Creditos: " << this->obtenerCreditos() << endl
-        << "Cantidad de terrenos: " << this->obtenerCantidadTerrenos() << endl
-        << "Unidades de riego: " << obtenerUnidadesRiego() << endl;
-}
+    std::string Jugador::obtenerNombre(){
+    	return this->nombre;
+    }
 
-void Jugador :: establecerNombre(string nombre) {
 
-    this->nombre = nombre;
-}
+    void Jugador::establecerCreditos(int creditos){
+    	this->creditos = creditos;
+    }
 
-void Jugador :: ingresarNombre() {
+    void Jugador::sumarCreditos(int creditos){
+    	this->creditos += creditos;
+    }
 
-    cout << "Ingrese el nombre del jugador: ";
+    int Jugador::obtenerCreditos(){
+    	return creditos;
+    }
 
-    cin >>  this->nombre;
-}
 
-string Jugador :: obtenerNombre() {
+    void Jugador::comprarTerreno(Dificultad dificultad){
+    	//resta creditos ACA!!!
+    	int cantTerrenos = 0;
+    	Parcela parcelita;
+    	while(cantTerrenos < (dificultad.obtenerCol()*
+    			dificultad.obtenerFil())){
+    		miTerreno.agregar(&parcelita);
+    		cantTerrenos++;
+    	}
 
-    return this->nombre;
-}
+    }
 
-void Jugador :: establecerCreditos(int creditos) {
+    void Jugador::venderTerreno(Dificultad dificultad){
+    	int cantTerrenos = 0;
+    	while(cantTerrenos < (dificultad.obtenerCol()*
+    			dificultad.obtenerFil())){
+    	 	miTerreno.remover(miTerreno.contarElementos());
+    	  	cantTerrenos++;
+    	    }
+    	//Sumas los creditos correspondientes.
+    }
 
-    this->creditos = creditos;
-}
 
-int Jugador :: obtenerCreditos() {
+    int Jugador::obtenerCantidadTerrenos(Dificultad dificultad){
+    	int cantTerrenos = 0;
+    	int nxm = dificultad.obtenerCol()*dificultad.obtenerFil();
+    	cantTerrenos = (miTerreno.contarElementos()/nxm);
+    	return cantTerrenos;
+    }
 
-    return this->creditos;
-}
+    void Jugador::establecerUnidadesRiego(int unidadesRiego){
+    	miTanque.aumentarCapacidad(unidadesRiego);
+    }
 
-void Jugador :: establecerCantidadTerrenos(int cantidadTerrenos) {
 
-    this->cantidadTerrenos = cantidadTerrenos;
-}
+    int Jugador::obtenerUnidadesRiego(){
+    	return miTanque.obtenerCantidadAgua();
+    }
 
-int Jugador :: obtenerCantidadTerrenos() {
 
-    return this->cantidadTerrenos;
-}
+    void Jugador::cargarAtributos(Dificultad dificultad){
+    	creditos = dificultad.obtenerCreditos();
+    	miTanque.aumentarCapacidad(dificultad.obtenerCapacidadTanque());
+    	miAlmacen.comprarCapacidad(dificultad.obtenerCapacidadAlmacen());
+    	Parcela parcelita;
+    	int cantTerrenos = 0;
+    	while(cantTerrenos < (dificultad.obtenerCol()*
+    	    	dificultad.obtenerFil())){
+    	    	miTerreno.agregar(&parcelita);
+    	    	cantTerrenos++;
+    	}
+    }
 
-int Jugador :: obtenerUnidadesRiego() {
+    Parcela* Jugador::obtenerParcela(int nTerreno, int fila,
+    		int columna, Dificultad dificultad){
 
-    return this->unidadesRiego;
-}
+    	int posicion = 0;
+    	int parcial = 0;
 
-void Jugador :: establecerUnidadesRiego(int unidadesRiego) {
-
-    this->unidadesRiego = unidadesRiego;
-}
-
-void Jugador :: cargarAtributos(ifstream& archivo) {
-
-    archivo >> this->creditos;
-    archivo >> this->cantidadTerrenos;
-    archivo >> this->unidadesRiego;
-
-    archivo.seekg(0, archivo.beg);
-}
+    	parcial = (nTerreno - 1)*(dificultad.obtenerFil() * dificultad.obtenerCol());
+    		if(fila < 2){
+    		posicion = (columna + parcial);
+    		}else{
+    		int parcial2 = 0;
+    			parcial2 = (fila - 1) * (dificultad.obtenerCol())
+    			posicion = (columna + parcial2 + parcial);
+    		}
+    	return miTerreno.obtener((unsigned int) posicion);
+    }
