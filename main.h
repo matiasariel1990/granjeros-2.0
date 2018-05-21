@@ -8,6 +8,10 @@
 #include <fstream>
 #include <iomanip>
 #include "jugador.h"
-#include "setup.h"
+#include "configuracion.h"
+#include "Campo.h"
+#include "Lista.h"
+#include "Nodo.h"
+
 
 #endif

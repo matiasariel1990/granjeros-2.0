@@ -10,37 +10,33 @@
 #include "error.h"
 #include <iostream>
 
+using namespace std;
+
 void Pantalla::imprimirBienvenida(){
-	cout << TITULO
-			<< endl;
+	cout << "Bienvenido a Granjeros V 2.0" << endl;
 }
 
 void Pantalla::solicitarJugadores(){
-	cout << SOL_JUGADORES
-			<<"(MAXIMO 5)"
-			<< endl;
+	cout << "Ingrese la cantidad de jugadores" << "(MAXIMO 5)" << endl;
 }
 
 void Pantalla::solicitarNombre(int jugN){
-	cout << SOLICITAR_NOMBRE
-			<< jugN
-			<< endl;
+	cout << "Ingrese el nombre del jugador " << jugN << endl;
 }
 
 void Pantalla::imprimirMenu(){
-	cout << SOLICITAR_ACCION
-			<< endl
-			<< OP1
-			<< OP2
-			<< OP3
-			<< OP4
-			<< OP5
-			<< OP6
-			<< OP7
-			<< OP8
-			<< OP9
-			<< OP10
-			<< endl;
+	cout << "Seleccione una accion:" << endl
+		<< "1.Regar //"
+		<< "2.Comprar terreno"
+		<< "3. Vender terreno"
+		<< "4. Sembrar"
+		<< "5. Cosechar"
+		<< "6. Comprar capacidad de agua"
+		<< "7. Comprar capacidad de almacén"
+		<< "8. Enviar pedido"
+		<< "9. Pasar turno"
+		<< "10. Salir"
+		<< endl;
 }
 
 void Pantalla::imprimirEstadoDelJugador(Jugador* jugadorPtr){
@@ -63,9 +59,7 @@ void Pantalla::imprimirEstadoDelJugador(Jugador* jugadorPtr){
 }
 
 void Pantalla::imprimirSeparador(){
-	cout << SEPARADOR
-			<< SEPARADOR
-			<< endl;
+	cout << "-----------------" << endl;
 }
 
 void Pantalla::imprimirTerreno(Jugador* jugadorPtr){
@@ -98,10 +92,8 @@ void Pantalla::separadorTerreno(){
 	cout << endl;
 }
 
-
 int Pantalla::solicitarColumnaParcela(){
-	cout << SOLICITAR_COLUMNA
-			<< endl;
+	cout << "Ingese numero de columna" << endl;
 	int numeroColumna;
 	cin >> numeroColumna;
 	numeroColumna--;
@@ -109,8 +101,7 @@ int Pantalla::solicitarColumnaParcela(){
 }
 
 int Pantalla::solicitarFilaParcela(){
-	cout << SOLICITAR_FILA
-				<< endl;
+	cout << "Ingese numero de fila" << endl;
 	int numeroFila;
 	cin >> numeroFila;
 	numeroFila--;
@@ -119,20 +110,17 @@ int Pantalla::solicitarFilaParcela(){
 
 void Pantalla::menuSalir(Jugador* jugadorPtr){
 	char eleccion;
-	cout << CONFIRME_SALIDA
-			<< endl;
+	cout << "Esta seguro que quiere salir? (s/n)" << endl;
 		cin >> eleccion;
 		if(eleccion == 's'){
 
 		}
 }
 
-
 char Pantalla::solicitarTipoCultivo(){
 	char tipoCultivo;
 	Error e;
-	cout << SOLICITAR_TIPO_CULTIVO
-				<< endl;
+	cout << "Ingrese un tipo de cultivo:: A B o C." << endl;
 	cin >> tipoCultivo;
 	while(((tipoCultivo < 'A')||
 			(tipoCultivo > 'C'))){
@@ -145,16 +133,13 @@ char Pantalla::solicitarTipoCultivo(){
 
 int Pantalla::cantidadAComprar(){
 	int cantidad;
-	cout << SOLICITAR_CANTIDAD
-		<< endl;
+	cout << "Cuantas unidades quiere comprar?" << endl;
 	cin >> cantidad;
 	return cantidad;
 }
 
 void Pantalla::saludoFinal(Jugador* jugadorPtr){
-	cout << DESPEDIDA
-			<< jugadorPtr->obtenerCredito()
-			<< endl;
+	cout << "El juego a finalizado, su credito final es: " << jugadorPtr->obtenerCredito() << endl;
 	imprimirSeparador();
 	cout << endl;
 }
