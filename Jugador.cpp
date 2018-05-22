@@ -1,9 +1,9 @@
-#include "jugador.h"
+#include "Jugador.h"
 
 using namespace std;
 
 Jugador :: Jugador() {
-
+	this->tanque.aumentarCapacidad(25);
     this->nombre = "Nombre no asignado";
     this->creditos = 0;
     this->unidadesRiego = 0;
@@ -31,7 +31,7 @@ void Jugador :: imprimirInformacion() {
 
 int Jugador :: obtenerCantidadTerrenos() {
 
-    this->campoJugador.obtenerCantidadTerrenos();
+    return this->campoJugador.obtenerCantidadTerrenos();
 }
 
 void Jugador :: establecerNombre(string nombre) {
@@ -121,4 +121,43 @@ void Jugador :: venderTerreno(int posicion) {
     this->creditos += static_cast<int>(precioVentaTerreno);
 
     this->campoJugador.eliminarTerreno(posicion);
+}
+
+bool Jugador :: esUnTerrenoValido(int terreno){
+	if(terreno > 0 && terreno <= campoJugador.obtenerCantidadTerrenos()){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+bool Jugador :: esUnaFilaValida(int fila){
+	if(fila > 0 && fila <= campoJugador.obtenerFilas()){
+			return true;
+		}else{
+			return false;
+		}
+}
+
+bool Jugador :: esUnaColumnaValida(int columna){
+	if(columna > 0 && columna <= campoJugador.obtenerColumnas()){
+			return true;
+		}else{
+			return false;
+		}
+}
+
+bool Jugador :: cosechar(int terreno, int fila, int columna){
+	Parcela* parcela = campoJugador.obtenerPacela(terreno, fila, columna);
+	bool respuesta = true;
+	if(parcela->sePuedeCosechar()){
+		almacen.agregarCosechaAlmacen(parcela->cosecharParcela());
+	}else{
+		respuesta = false;
+	}
+	return respuesta;
+}
+
+bool Jugador :: hayLugarEnAlmacen(){
+	return almacen.hayLugar();
 }

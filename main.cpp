@@ -1,6 +1,19 @@
-#include "main.h"
+
 
 #define ARCHIVO_CULTIVOS "cultivos.txt"
+
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <string>
+#include <fstream>
+#include <iomanip>
+#include "Jugador.h"
+#include "Configuracion.h"
+#include "Pantalla.h"
+#include "Campo.h"
+#include "Lista.h"
+#include "Nodo.h"
 
 using namespace std;
 
@@ -9,21 +22,17 @@ const int TURNOS = 10;
 const int OPCION_MOSTRAR_CAMPO = 1;
 const int OPCION_COMPRAR_TERRENO = 2;
 const int OPCION_VENDER_TERRENO = 3;
-const int OPCION_FINALIZAR_TURNO = 5;
+const int OPCION_COSECHAR = 5;
+const int OPCION_COMPRAR_AGUA = 6;
 const int OPCION_SEMBRAR_PARCELA = 4;
-
+const int OPCION_FINALIZAR_TURNO = 9;
+const int OPCION_SALIR = 10;
 // Deberia ir en logica.cpp
 int obtenerOpcion() {
 
     int opcionIngresada;
 
-    cout << "\n1. Mostrar campo" << endl
-        << "2. Comprar terreno" << endl
-        << "3. Vender terreno" << endl
-        << "4. Sembrar parcela" << endl
-        << "5. Finalizar turno" << endl << endl;
-
-    cout << "Ingrese una opcion: ";
+    imprimirMenu();
     cin >> opcionIngresada;
 
     return opcionIngresada;
@@ -44,6 +53,7 @@ void comprarTerreno(Jugador& jugador) {
     else {
 
         jugador.comprarTerreno();
+        cout << "Terreno comprado!" << endl;
     }
 }
 
@@ -60,6 +70,38 @@ void venderTerreno(Jugador& jugador) {
     }
 
     jugador.venderTerreno(posicion);
+}
+
+void cosecharParcela(Jugador& jugador){
+	int terreno, fila, columna;
+	do{
+		cout << "Ingrese el numero de terreno: " << endl;
+		cin >> terreno;
+		if(!jugador.esUnTerrenoValido(terreno)){
+			cout << "Terreno Invalido" << endl;
+		}
+	}
+	while(!jugador.esUnTerrenoValido(terreno));
+
+	do{
+		cout << "Ingrese la fila" << endl;
+		cin >> fila;
+		if(!jugador.esUnaFilaValida(fila)){
+			cout << "Fila Invalida" << endl;
+		}
+	}
+	while(!jugador.esUnaFilaValida(fila));
+
+	do{
+		cout << "Ingrese la columna" << endl;
+		cin >> columna;
+		if(!jugador.esUnaColumnaValida(columna)){
+			cout << "Columna Invalida" << endl;
+		}
+	}
+	while(!jugador.esUnaColumnaValida(columna));
+
+	jugador.cosechar(terreno, fila, columna);
 }
 
 void sembrarParcela(Jugador& jugador) {
@@ -102,7 +144,18 @@ void procesarTurno(Jugador& jugador, int turno) {
 
                 sembrarParcela(jugador);
 
-                break;    
+                break;
+
+            case OPCION_COSECHAR:
+
+            	if(jugador.hayLugarEnAlmacen()){
+            		cosecharParcela(jugador);
+            	}else{
+            		cout << "Almacen Lleno!!" << endl;
+            	}
+
+
+                break;
 
             default:
 
