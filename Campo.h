@@ -57,6 +57,8 @@ public:
 
 	virtual ~Campo();
 
+	Parcela* obtenerPacela(int terreno, int fila, int columna);
+
 };
 
 #endif /* SRC_CAMPO_H_ */
